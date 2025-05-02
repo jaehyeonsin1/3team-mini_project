@@ -1,0 +1,136 @@
+백엔드 API 가이드
+URL : http://localhost:3000
+
+
+1. 회원가입 (POST /api/users/register)
+- Method: POST
+- URL: /api/users/register
+- Headers:
+    Content-Type: application/json
+- Body (JSON):
+{
+  "userId": "user01",
+  "password": "pass1234",
+  "email": "user01@example.com"
+}
+- 성공 응답 (200 OK):
+{
+  "id": 1,
+  "userId": "user01",
+  "email": "user01@example.com"
+}
+
+
+2. 로그인 (POST /api/users/login)
+- Method: POST
+- URL: /api/users/login
+- Headers:
+    Content-Type: application/json
+- Body (JSON):
+{
+  "userId": "user01",
+  "password": "pass1234"
+}
+- 성공 응답 (200 OK):
+{
+  "token": "<JWT 토큰>--영어로 뭐라뭐라 막 나옴"
+}
+
+
+3. 사용자 조회 (GET /api/users/:id)
+- Method: GET
+- URL: /api/users/1
+- 성공 응답 (200 OK):
+{
+  "id": 1,
+  "userId": "user01",
+  "password": "pass1234",
+  "email": "user01@example.com"
+}
+
+
+4. 사용자 수정 (PUT /api/users/:id)
+- Method: PUT
+- URL: /api/users/1
+- Headers:
+    Content-Type: application/json
+- Body (JSON):
+{
+  "password": "newpass1234",
+  "email": "updated@example.com"
+}
+- 성공 응답 (200 OK):
+{
+  "id": 1,
+  "password": "newpass1234",
+  "email": "updated@example.com"
+}
+
+
+5. 회원 탈퇴 (DELETE /api/users/:id)
+- Method: DELETE
+- URL: /api/users/1
+- 성공 응답 (204 No Content)
+
+
+6. 일정 등록 (POST /api/schedules)
+- Method: POST
+- URL: /api/schedules
+- Headers:
+    Content-Type: application/json
+- Body (JSON):
+{
+  "userId": 1,
+  "title": "회의",
+  "date": "2025-05-05",
+  "time": "14:00:00",
+  "location": "회의실 A",
+  "color": "#ff0000",
+  "description": "프로젝트 논의"
+}
+- 성공 응답 (200 OK):
+{
+  "id": 1,
+  ...
+}
+
+
+7. 일정 조회 (GET /api/schedules?userId=1&date=2025-05-05)
+- Method: GET
+- URL: /api/schedules?userId=1&date=2025-05-05
+- 성공 응답 (200 OK):
+[
+  {
+    "id": 1,
+    "userId": 1,
+    ...
+  }
+]
+
+
+8. 일정 수정 (PUT /api/schedules/:id)
+- Method: PUT
+- URL: /api/schedules/1
+- Headers:
+    Content-Type: application/json
+- Body (JSON):
+{
+  "userId": 1,
+  "title": "회의 (수정됨)",
+  "date": "2025-05-05",
+  "time": "15:00:00",
+  "location": "회의실 B",
+  "color": "#0000ff",
+  "description": "시간 변경"
+}
+- 성공 응답 (200 OK):
+{
+  "id": 1,
+  ...
+}
+
+
+9. 일정 삭제 (DELETE /api/schedules/:id)
+- Method: DELETE
+- URL: /api/schedules/1
+- 성공 응답 (204 No Content)
