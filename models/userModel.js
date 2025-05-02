@@ -12,19 +12,19 @@ const UserModel = {
   },
 
   create: async (user) => {
-    const { userId, password, email } = user;
+    const { userId, name, password, email } = user;
     const [result] = await db.query(
-      'INSERT INTO users (user_id, password, email) VALUES (?, ?, ?)',
-      [userId, password, email]
+      'INSERT INTO users (user_id, name, password, email) VALUES (?, ?, ?, ?)',
+      [userId, name, password, email]
     );
-    return { id: result.insertId, userId, email };
+    return { id: result.insertId, userId, name, email };
   },
 
   update: async (id, user) => {
-    const { password, email } = user;
+    const { name, password, email } = user;
     await db.query(
-      'UPDATE users SET password = ?, email = ? WHERE id = ?',
-      [password, email, id]
+      'UPDATE users SET name = ?, password = ?, email = ? WHERE id = ?',
+      [name, password, email, id]
     );
     return { id, ...user };
   },

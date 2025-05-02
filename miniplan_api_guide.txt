@@ -10,6 +10,7 @@ URL : http://localhost:3000
 - Body (JSON):
 {
   "userId": "user01",
+  "name": "유저1",
   "password": "pass1234",
   "email": "user01@example.com"
 }
@@ -17,6 +18,7 @@ URL : http://localhost:3000
 {
   "id": 1,
   "userId": "user01",
+  "name" : "유저1"
   "email": "user01@example.com"
 }
 
@@ -44,6 +46,7 @@ URL : http://localhost:3000
 {
   "id": 1,
   "userId": "user01",
+  "name": "유저1"
   "password": "pass1234",
   "email": "user01@example.com"
 }
@@ -56,12 +59,14 @@ URL : http://localhost:3000
     Content-Type: application/json
 - Body (JSON):
 {
+  "name": "유저1.1",
   "password": "newpass1234",
   "email": "updated@example.com"
 }
 - 성공 응답 (200 OK):
 {
   "id": 1,
+  "name": "유저1.1"
   "password": "newpass1234",
   "email": "updated@example.com"
 }
