@@ -1,0 +1,5 @@
+# 공통
+node_modules
+
+# VSCode
+.vscode/
