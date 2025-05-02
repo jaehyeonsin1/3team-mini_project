@@ -10,7 +10,9 @@ function App(){
   return ( // 로그인이 안되어 있으면 로그인 메인 로그인이 되어있다면 CalendarPage로 
     <div className="App"> 
     {!isLoggedIn ? (
+        <div>
        <LoginMain/>
+       </div>
     ) : (
        <div>
       <CalenderPage/>
