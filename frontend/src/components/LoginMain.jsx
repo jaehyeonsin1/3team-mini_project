@@ -12,7 +12,7 @@ function LoginMain() {
     if (token) {
       navigate("/main"); // 이미 로그인된 사용자면 메인으로 바로 이동
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className={styles.container}>

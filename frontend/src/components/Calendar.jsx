@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CalendarView from "./CalendarView";
 import TimeView from "./TimeView";
 import { getFormattedDate } from "../utils/dateUtils";
@@ -19,15 +19,22 @@ export default function Calendar({
   // 해당 캘린더 범위내의 일정 데이터 state
   const [schedules, setSchedules] = useState({});
 
+  const didMountRef = useRef(false);
+
   // 날짜 이동, 일정 수정, 캘린더 전환 시 일정 목록을 조회해서 가져옴
   useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
     const getData = async () => {
-      if (dates.length > 0) {
-        const data = await getSchedules();
-        setSchedules(data);
-      }
+      const data = await getSchedules();
+      setSchedules(data);
     };
-    getData();
+
+    if (dates.length > 0) {
+      getData();
+    }
   }, [dates, isUpdated, viewMode]);
 
   // 일정 가져옴

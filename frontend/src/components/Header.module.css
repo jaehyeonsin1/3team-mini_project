@@ -22,6 +22,7 @@
 .icon {
   width: 36px;
   height: 36px;
+  transform: scale(1.3);
 }
 
 .logoText {
