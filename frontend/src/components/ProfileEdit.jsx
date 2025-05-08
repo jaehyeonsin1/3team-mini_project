@@ -31,7 +31,7 @@ function ProfileEdit() {
       .then((res) => res.json())
       .then((data) => setForm(data))
       .catch((err) => console.error("사용자 정보 로드 실패", err));
-  }, []);
+  }, [navigate]);
 
   // input 값 변경 핸들러
   const handleChange = (e) => {
@@ -47,7 +47,7 @@ function ProfileEdit() {
         form.password
       )
     )
-      newErrors.password = "8~20자, 영문+숫자+특수문자 포함";
+      newErrors.password = "8~20자, 영문+숫자+특수문자(!@#$%^&*) 모두 포함";
     if (!/^[가-힣a-zA-Z]{2,10}$/.test(form.name))
       newErrors.name = "2~10자, 한글 또는 영문";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
@@ -61,6 +61,7 @@ function ProfileEdit() {
     if (!validate()) return;
 
     const userPK = localStorage.getItem("userPK"); // 사용자 식별
+
     fetch(`http://localhost:3000/api/users/${userPK}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

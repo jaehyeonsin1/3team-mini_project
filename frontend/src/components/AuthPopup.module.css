@@ -27,6 +27,16 @@ input {
   margin-bottom: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.inputBox {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 
 input:focus {
@@ -83,13 +93,20 @@ input:focus {
 .error {
   color: red;
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-top: 1px;
+}
+
+.errorId {
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 .success {
   color: blue;
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-top: 1px;
 }
 
 .errorInput {
@@ -98,4 +115,30 @@ input:focus {
 
 .successInput {
   border: 1px solid blue;
+}
+
+.inputRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelWithMsg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.successMsg,
+.errorMsg {
+  position: absolute;
+  right: 45px;
+  font-size: 0.8rem;
+}
+
+.successMsg {
+  color: blue;
+}
+
+.errorMsg {
+  color: red;
 }

@@ -15,13 +15,12 @@
 }
 
 .calendarIcon {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 10px;
+  width: 170px;
+  height: 170px;
 }
 
 .logoText {
-  font-size: 36px;
+  font-size: 45px;
   font-weight: bold;
   color: white;
   margin: 0;
@@ -29,7 +28,7 @@
 
 .buttons {
   display: flex;
-  gap: 20px;
+  gap: 70px;
 }
 
 .btn {

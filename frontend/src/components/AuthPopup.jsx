@@ -18,13 +18,25 @@ function AuthPopup() {
     email: "",
   });
   const [errors, setErrors] = useState({});
-  const [idCheckMsg, setIdCheckMsg] = useState("");
+  const [valid, setValid] = useState({ userId: false });
+  const [duplicateId, setDuplicateId] = useState(false);
 
   // 로그인된 사용자가 로그인/회원가입 페이지 접근 못 하도록 차단
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) navigate("/main");
-  }, []);
+  }, [navigate]);
+
+  // 경로 바뀔 때마다 입력값 초기화 (로그인/회원가입 전환 시)
+  useEffect(() => {
+    setForm({
+      userId: "",
+      password: "",
+      name: "",
+      email: "",
+    });
+    setErrors({});
+  }, [pathname]);
 
   // 입력값 변경 핸들러
   const handleChange = (e) => {
@@ -39,15 +51,33 @@ function AuthPopup() {
 
   // 아이디 중복 확인 API
   const checkDuplicateId = (userId) => {
+    const isValid = /^(?=.*[a-z])(?=.*\d)[a-z0-9]{5,20}$/.test(userId); // 유효성 검사 먼저 수행
+    setValid((prev) => ({ ...prev, userId: isValid })); // 유효성 검사 통과 여부 저장
+
+    if (!isValid) {
+      setErrors((prev) => ({
+        ...prev,
+        userId: "5~20자, 영문 소문자+숫자 모두 포함",
+      }));
+      setDuplicateId(false);
+      return;
+    }
+
     fetch(`http://localhost:3000/api/users/check-id?userId=${userId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.duplicate) {
-          setErrors((prev) => ({ ...prev, userId: "중복된 아이디입니다" }));
-          setIdCheckMsg("중복된 아이디입니다");
+          setDuplicateId(true);
+          setErrors((prev) => ({
+            ...prev,
+            userId: "이미 사용 중인 아이디입니다",
+          }));
         } else {
-          setErrors((prev) => ({ ...prev, userId: "" }));
-          setIdCheckMsg("사용할 수 있는 아이디입니다");
+          setDuplicateId(false);
+          setErrors((prev) => ({
+            ...prev,
+            userId: "", // 중복 아님 + 유효성 통과 시 오류 제거
+          }));
         }
       });
   };
@@ -57,14 +87,14 @@ function AuthPopup() {
     const newErrors = {};
     const { userId, password, name, email } = form;
 
-    if (!/^[a-z0-9]{5,20}$/.test(userId))
-      newErrors.userId = "5~20자 영문 소문자+숫자 조합";
+    if (!/^(?=.*[a-z])(?=.*\d)[a-z0-9]{5,20}$/.test(userId))
+      newErrors.userId = "5~20자, 영문 소문자+숫자 모두 포함";
     if (
       !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/.test(
         password
       )
     )
-      newErrors.password = "8~20자, 문자/숫자/특수문자 2종 이상 포함";
+      newErrors.password = "8~20자, 영문+숫자+특수문자(!@#$%^&*) 모두 포함";
     if (!/^[가-힣a-zA-Z]{2,10}$/.test(name))
       newErrors.name = "2~10자, 한글 또는 영문";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
@@ -140,23 +170,45 @@ function AuthPopup() {
         <h2>{isLogin ? "로그인" : "회원가입"}</h2>
 
         {/* 아이디 */}
-        <label>아이디</label>
-        <input
-          type="text"
-          name="userId"
-          value={form.userId}
-          onChange={handleChange}
-          className={
-            errors.userId
-              ? styles.errorInput
-              : idCheckMsg
-              ? styles.successInput
-              : ""
-          }
-        />
-        <p className={errors.userId ? styles.error : styles.success}>
-          {errors.userId || idCheckMsg}
-        </p>
+        {
+          <div className={styles.inputRow}>
+            <div className={styles.labelWithMsg}>
+              <label htmlFor="userId">아이디</label>
+              {/* 회원가입일 때만 중복/유효성 메시지 표시 */}
+              {!isLogin &&
+                form.userId.length >= 5 &&
+                valid.userId &&
+                !duplicateId && (
+                  <span className={styles.successMsg}>
+                    사용할 수 있는 아이디입니다
+                  </span>
+                )}
+              {!isLogin && form.userId.length >= 5 && duplicateId && (
+                <span className={styles.errorMsg}>
+                  이미 사용 중인 아이디입니다
+                </span>
+              )}
+            </div>
+            <input
+              type="text"
+              name="userId"
+              value={form.userId}
+              onChange={handleChange}
+              placeholder="아이디를 입력해주세요"
+              className={`${styles.inputBox} ${
+                errors.userId
+                  ? styles.errorInput
+                  : valid.userId && !duplicateId
+                  ? styles.successInput
+                  : ""
+              }`}
+            />
+            {/* 일반적인 유효성 오류 메시지만 인풋 밑에 표시 (중복 제외) */}
+            {errors.userId && !duplicateId && (
+              <p className={styles.errorId}>{errors.userId}</p>
+            )}
+          </div>
+        }
 
         {/* 비밀번호 */}
         <label>비밀번호</label>
@@ -165,6 +217,7 @@ function AuthPopup() {
           name="password"
           value={form.password}
           onChange={handleChange}
+          placeholder="비밀번호를 입력해주세요"
           className={errors.password ? styles.errorInput : ""}
         />
         <p className={styles.error}>{errors.password}</p>
@@ -178,6 +231,7 @@ function AuthPopup() {
               name="name"
               value={form.name}
               onChange={handleChange}
+              placeholder="이름을 입력해주세요"
               className={errors.name ? styles.errorInput : ""}
             />
             <p className={styles.error}>{errors.name}</p>
@@ -188,6 +242,7 @@ function AuthPopup() {
               name="email"
               value={form.email}
               onChange={handleChange}
+              placeholder="이메일을 입력해주세요"
               className={errors.email ? styles.errorInput : ""}
             />
             <p className={styles.error}>{errors.email}</p>
