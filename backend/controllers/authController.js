@@ -54,7 +54,6 @@ exports.refreshToken = (req, res) => {
 exports.login = async (req, res) => {
   try {
     const token = await authService.login(req.body.user_id, req.body.password);
-
     res.json({
       token,
       user_id: req.body.user_id, // 사용자 식별자 추가

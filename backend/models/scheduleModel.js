@@ -20,7 +20,7 @@ const ScheduleModel = {
 
     const [result] = await db.query(
       "INSERT INTO schedules (user_id, title, date, time, location, color, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [user_id, title, date, time, location, color || "#000000", description]
+      [user_id, title, date, time, location, color || "#ffffff", description]
     );
 
     return { id: result.insertId, ...schedule };

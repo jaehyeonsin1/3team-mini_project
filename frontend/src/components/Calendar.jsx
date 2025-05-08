@@ -56,7 +56,7 @@ export default function Calendar({
 
     const res = await fetch(
       `http://localhost:3000/api/schedules?user_id=${localStorage.getItem(
-        "userPK"
+        "user_id"
       )}&start_date=${start_d}&end_date=${end_d}`
     );
 

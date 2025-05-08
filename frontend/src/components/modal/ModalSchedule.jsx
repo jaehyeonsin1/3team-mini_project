@@ -17,6 +17,8 @@ export default function ModalSchedule({
     const res = await fetch(
       `http://localhost:3000/api/schedules?user_id=1&start_date=${selectedDate.date}&end_date=${selectedDate.date}`
     );
+    console.log(res);
+
     const data = await res.json();
 
     setSelectedDate({ ...selectedDate, schedules: data });
@@ -44,7 +46,7 @@ export default function ModalSchedule({
     }
 
     if (res.ok) {
-      alert("성공");
+      alert("일정이 반영되었습니다.");
       setIsUpdated(!isUpdated);
       setModalState(null);
       setSelectedSchedule({
@@ -65,7 +67,7 @@ export default function ModalSchedule({
       }
     );
     if (res.ok) {
-      alert("성공");
+      alert("일정이 삭제되었습니다!");
       setIsUpdated(!isUpdated);
       setModalState(null);
       setSelectedSchedule({

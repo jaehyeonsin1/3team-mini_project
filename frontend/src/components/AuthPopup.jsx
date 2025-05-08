@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./AuthPopup.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai"; // 닫기 아이콘
+import { jwtDecode } from "jwt-decode";
 
 function AuthPopup() {
   const navigate = useNavigate();
@@ -128,8 +129,11 @@ function AuthPopup() {
       })
       .then((data) => {
         // 토큰 및 userPK 저장 (user.id 없을 경우 data.id fallback 처리)
+        const payload = jwtDecode(data.token);
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userPK", data.user_id);
+        // localStorage.setItem("userPK", data.user?.id ?? data.id);
+        localStorage.setItem("userPK", payload.user_id);
+
         navigate("/main");
       })
       .catch(() =>
