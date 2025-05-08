@@ -2,15 +2,13 @@ const scheduleService = require("../services/scheduleService");
 
 // 특정 유저+날짜의 일정 조회
 exports.getSchedules = async (req, res) => {
-  const { userId, start_date, end_date } = req.query;
+  const { user_id, start_date, end_date } = req.query;
   try {
     const schedules = await scheduleService.getSchedulesByUserAndDate(
-      userId,
+      user_id,
       start_date,
       end_date
     );
-    console.log(schedules);
-
     res.json(schedules);
   } catch (err) {
     res.status(500).json({ error: "일정 조회 실패" });

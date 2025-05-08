@@ -28,5 +28,5 @@ node_modules
 
 # VSCode
 .vscode/
-
-.env
+backend/.env
+frontend/.env

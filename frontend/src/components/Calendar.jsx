@@ -55,10 +55,11 @@ export default function Calendar({
           );
 
     const res = await fetch(
-      `http://localhost:3000/api/schedules?userId=${localStorage.getItem(
+      `http://localhost:3000/api/schedules?user_id=${localStorage.getItem(
         "userPK"
       )}&start_date=${start_d}&end_date=${end_d}`
     );
+
     const data = await res.json();
     const scheduleMap = {};
     for (const s of data) {

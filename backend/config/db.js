@@ -10,6 +10,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   timezone: "Z",
+  queueLimit: 0
 });
 
-module.exports = pool;
+module.exports = pool; // 연결 풀 내보내기

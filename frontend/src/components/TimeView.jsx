@@ -43,7 +43,7 @@ export default function TimeView({
                   onClick={() => {
                     setSelectedSchedule({
                       ...s2,
-                      userId: 1,
+                      user_id: 1,
                       date: getFormattedDate(tmp),
                       time: `${String(h).padStart(2, "0")}:00`,
                     });

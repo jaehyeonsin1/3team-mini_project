@@ -15,7 +15,7 @@ export default function ModalSchedule({
   // 해당 날짜의 모든 일정을 조회
   const getSchedules = async () => {
     const res = await fetch(
-      `http://localhost:3000/api/schedules?userId=1&start_date=${selectedDate.date}&end_date=${selectedDate.date}`
+      `http://localhost:3000/api/schedules?user_id=1&start_date=${selectedDate.date}&end_date=${selectedDate.date}`
     );
     const data = await res.json();
 
@@ -25,6 +25,7 @@ export default function ModalSchedule({
   // 일정을 저장/수정
   const saveSchedule = async () => {
     let res = "";
+
     if (selectedSchedule.id) {
       res = await fetch(
         `http://localhost:3000/api/schedules/${selectedSchedule.id}`,
@@ -47,7 +48,7 @@ export default function ModalSchedule({
       setIsUpdated(!isUpdated);
       setModalState(null);
       setSelectedSchedule({
-        userId: localStorage.getItem("userPK"),
+        user_id: localStorage.getItem("userPK"),
         date: selectedDate.date,
       });
       getSchedules();
@@ -68,7 +69,7 @@ export default function ModalSchedule({
       setIsUpdated(!isUpdated);
       setModalState(null);
       setSelectedSchedule({
-        userId: localStorage.getItem("userPK"),
+        user_id: localStorage.getItem("userPK"),
         date: selectedDate.date,
       });
       getSchedules();
@@ -111,7 +112,9 @@ export default function ModalSchedule({
             <button
               onClick={() => {
                 setModalState(null);
-                setSelectedSchedule({ userId: localStorage.getItem("userPK") });
+                setSelectedSchedule({
+                  user_id: localStorage.getItem("userPK"),
+                });
               }}
               className="btn btn-cancel"
             >

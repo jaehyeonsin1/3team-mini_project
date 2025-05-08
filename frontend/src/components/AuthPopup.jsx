@@ -1,4 +1,7 @@
 // 로그인/회원가입 팝업 모달 (조건부 렌더링으로 구분) <-- 조건부 렌더링 안되면 파일 두개 만들면 됩니다
+// 전체 user_id -> user_id로 변경
+// fetch의 url에서 api/users -> api/auth로 변경
+// localStorage에 저장하는 userPK값 명시적으로 변경해야 해서 user_id로 변경
 
 import React, { useState, useEffect } from "react";
 import styles from "./AuthPopup.module.css";
@@ -12,13 +15,13 @@ function AuthPopup() {
 
   // 사용자 입력값 상태
   const [form, setForm] = useState({
-    userId: "",
+    user_id: "",
     password: "",
     name: "",
     email: "",
   });
   const [errors, setErrors] = useState({});
-  const [valid, setValid] = useState({ userId: false });
+  const [valid, setValid] = useState({ user_id: false });
   const [duplicateId, setDuplicateId] = useState(false);
 
   // 로그인된 사용자가 로그인/회원가입 페이지 접근 못 하도록 차단
@@ -30,7 +33,7 @@ function AuthPopup() {
   // 경로 바뀔 때마다 입력값 초기화 (로그인/회원가입 전환 시)
   useEffect(() => {
     setForm({
-      userId: "",
+      user_id: "",
       password: "",
       name: "",
       email: "",
@@ -44,39 +47,39 @@ function AuthPopup() {
     setForm((prev) => ({ ...prev, [name]: value })); // form 상태 업데이트
     setErrors((prev) => ({ ...prev, [name]: "" })); // 에러 초기화
     // 아이디 중복 체크
-    if (name === "userId" && value.length >= 5) {
+    if (name === "user_id" && value.length >= 5) {
       checkDuplicateId(value);
     }
   };
 
   // 아이디 중복 확인 API
-  const checkDuplicateId = (userId) => {
-    const isValid = /^(?=.*[a-z])(?=.*\d)[a-z0-9]{5,20}$/.test(userId); // 유효성 검사 먼저 수행
-    setValid((prev) => ({ ...prev, userId: isValid })); // 유효성 검사 통과 여부 저장
+  const checkDuplicateId = (user_id) => {
+    const isValid = /^(?=.*[a-z])(?=.*\d)[a-z0-9]{5,20}$/.test(user_id); // 유효성 검사 먼저 수행
+    setValid((prev) => ({ ...prev, user_id: isValid })); // 유효성 검사 통과 여부 저장
 
     if (!isValid) {
       setErrors((prev) => ({
         ...prev,
-        userId: "5~20자, 영문 소문자+숫자 모두 포함",
+        user_id: "5~20자, 영문 소문자+숫자 모두 포함",
       }));
       setDuplicateId(false);
       return;
     }
 
-    fetch(`http://localhost:3000/api/users/check-id?userId=${userId}`)
+    fetch(`http://localhost:3000/api/users/check-id?user_id=${user_id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.duplicate) {
           setDuplicateId(true);
           setErrors((prev) => ({
             ...prev,
-            userId: "이미 사용 중인 아이디입니다",
+            user_id: "이미 사용 중인 아이디입니다",
           }));
         } else {
           setDuplicateId(false);
           setErrors((prev) => ({
             ...prev,
-            userId: "", // 중복 아님 + 유효성 통과 시 오류 제거
+            user_id: "", // 중복 아님 + 유효성 통과 시 오류 제거
           }));
         }
       });
@@ -85,10 +88,10 @@ function AuthPopup() {
   // 유효성 검사
   const validate = () => {
     const newErrors = {};
-    const { userId, password, name, email } = form;
+    const { user_id, password, name, email } = form;
 
-    if (!/^(?=.*[a-z])(?=.*\d)[a-z0-9]{5,20}$/.test(userId))
-      newErrors.userId = "5~20자, 영문 소문자+숫자 모두 포함";
+    if (!/^(?=.*[a-z])(?=.*\d)[a-z0-9]{5,20}$/.test(user_id))
+      newErrors.user_id = "5~20자, 영문 소문자+숫자 모두 포함";
     if (
       !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/.test(
         password
@@ -106,18 +109,18 @@ function AuthPopup() {
 
   // 로그인 제출
   const handleLogin = () => {
-    if (!form.userId || !form.password) {
+    if (!form.user_id || !form.password) {
       setErrors({
-        userId: !form.userId ? "필수 입력" : "",
+        user_id: !form.user_id ? "필수 입력" : "",
         password: !form.password ? "필수 입력" : "",
       });
       return;
     }
 
-    fetch("http://localhost:3000/api/users/login", {
+    fetch("http://localhost:3000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: form.userId, password: form.password }),
+      body: JSON.stringify({ user_id: form.user_id, password: form.password }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("로그인 실패");
@@ -126,7 +129,7 @@ function AuthPopup() {
       .then((data) => {
         // 토큰 및 userPK 저장 (user.id 없을 경우 data.id fallback 처리)
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userPK", data.user?.id ?? data.id);
+        localStorage.setItem("userPK", data.user_id);
         navigate("/main");
       })
       .catch(() =>
@@ -141,10 +144,16 @@ function AuthPopup() {
   const handleRegister = () => {
     if (!validate()) return;
 
-    fetch("http://localhost:3000/api/users/register", {
+    fetch("http://localhost:3000/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({
+        // 이 부분 추가해야 회원가입이 정상적으로 작동함
+        user_id: form.user_id,
+        password: form.password,
+        name: form.name,
+        email: form.email,
+      }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("회원가입 실패");
@@ -173,17 +182,17 @@ function AuthPopup() {
         {
           <div className={styles.inputRow}>
             <div className={styles.labelWithMsg}>
-              <label htmlFor="userId">아이디</label>
+              <label htmlFor="user_id">아이디</label>
               {/* 회원가입일 때만 중복/유효성 메시지 표시 */}
               {!isLogin &&
-                form.userId.length >= 5 &&
-                valid.userId &&
+                form.user_id.length >= 5 &&
+                valid.user_id &&
                 !duplicateId && (
                   <span className={styles.successMsg}>
                     사용할 수 있는 아이디입니다
                   </span>
                 )}
-              {!isLogin && form.userId.length >= 5 && duplicateId && (
+              {!isLogin && form.user_id.length >= 5 && duplicateId && (
                 <span className={styles.errorMsg}>
                   이미 사용 중인 아이디입니다
                 </span>
@@ -191,21 +200,21 @@ function AuthPopup() {
             </div>
             <input
               type="text"
-              name="userId"
-              value={form.userId}
+              name="user_id"
+              value={form.user_id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요"
               className={`${styles.inputBox} ${
-                errors.userId
+                errors.user_id
                   ? styles.errorInput
-                  : valid.userId && !duplicateId
+                  : valid.user_id && !duplicateId
                   ? styles.successInput
                   : ""
               }`}
             />
             {/* 일반적인 유효성 오류 메시지만 인풋 밑에 표시 (중복 제외) */}
-            {errors.userId && !duplicateId && (
-              <p className={styles.errorId}>{errors.userId}</p>
+            {errors.user_id && !duplicateId && (
+              <p className={styles.errorId}>{errors.user_id}</p>
             )}
           </div>
         }

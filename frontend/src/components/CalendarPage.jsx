@@ -25,7 +25,7 @@ function CalendarPage() {
   // 날짜가 선택될 때마다 일정 작성/수정에 필요한 state 값을 갱신
   useEffect(() => {
     setSelectedSchedule({
-      userId: localStorage.getItem("userPK"),
+      user_id: localStorage.getItem("userPK"),
       date: selectedDate.date,
       time: selectedDate.time,
     });

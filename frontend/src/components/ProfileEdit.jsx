@@ -1,4 +1,7 @@
 // 회원정보 수정 페이지 컴포넌트
+// userId -> user_id로 변경
+// ProfileEdit.jsx fetch 호출 수정
+// 회원정보 저장 Header 구문에 Authorization 추가
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +12,7 @@ function ProfileEdit() {
 
   // 사용자 정보 상태
   const [form, setForm] = useState({
-    userId: "", // 사용자 아이디 (수정 불가)
+    user_id: "", // 사용자 아이디 (수정 불가)
     password: "", // 비밀번호
     name: "", // 이름
     email: "", // 이메일
@@ -27,7 +30,11 @@ function ProfileEdit() {
       return;
     }
 
-    fetch(`http://localhost:3000/api/users/${userPK}`)
+    fetch(`http://localhost:3000/api/users/${userPK}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // 토큰 추가
+      }
+    })
       .then((res) => res.json())
       .then((data) => setForm(data))
       .catch((err) => console.error("사용자 정보 로드 실패", err));
@@ -63,7 +70,10 @@ function ProfileEdit() {
     const userPK = localStorage.getItem("userPK"); // 사용자 식별
     fetch(`http://localhost:3000/api/users/${userPK}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json' // 필수 헤더 추가
+      },
       body: JSON.stringify({
         password: form.password,
         name: form.name,
@@ -90,7 +100,7 @@ function ProfileEdit() {
       <div className={styles.formBox}>
         <h2>회원정보 수정</h2>
         <label>아이디</label>
-        <input type="text" name="userId" value={form.userId} disabled />
+        <input type="text" name="user_id" value={form.user_id} disabled />
         <label>비밀번호</label>
         <input
           type="password"

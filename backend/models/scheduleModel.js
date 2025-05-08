@@ -15,12 +15,14 @@ const ScheduleModel = {
   },
 
   create: async (schedule) => {
-    const { userId, title, date, time, location, color, description } =
+    const { user_id, title, date, time, location, color, description } =
       schedule;
+
     const [result] = await db.query(
       "INSERT INTO schedules (user_id, title, date, time, location, color, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [userId, title, date, time, location, color || "#000000", description]
+      [user_id, title, date, time, location, color || "#000000", description]
     );
+
     return { id: result.insertId, ...schedule };
   },
 
