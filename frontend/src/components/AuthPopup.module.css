@@ -1,0 +1,144 @@
+.popupContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle at center, #b3e0ff 0%, #f8fcff 90%);
+}
+
+.popup {
+  background: white;
+  padding: 40px;
+  width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.inputBox {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2196f3;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.cancel {
+  background-color: white;
+  color: #2196f3;
+  border: 1px solid #2196f3;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirm {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bottomText {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.linkText {
+  color: #2196f3;
+  margin-left: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.closeIcon {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+.errorId {
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.success {
+  color: blue;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+.errorInput {
+  border: 1px solid red;
+}
+
+.successInput {
+  border: 1px solid blue;
+}
+
+.inputRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelWithMsg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.successMsg,
+.errorMsg {
+  position: absolute;
+  right: 45px;
+  font-size: 0.8rem;
+}
+
+.successMsg {
+  color: blue;
+}
+
+.errorMsg {
+  color: red;
+}

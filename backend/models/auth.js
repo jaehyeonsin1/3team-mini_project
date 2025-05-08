@@ -1,5 +1,5 @@
 // 로그인, 회원가입 모델
-const authService = require('../service/authService');
+const authService = require('../services/authService');
 
 // 회원가입
 exports.register = async (req, res) => {

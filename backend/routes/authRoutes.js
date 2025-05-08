@@ -7,7 +7,6 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 router.get('/check-id', 
-    validateUserIdParam, // 미들웨어 추가
     authController.checkUserId
 );
 

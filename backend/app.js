@@ -5,12 +5,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./config/db');
 const authMiddleware = require('./middleware/mwAuth');
+const cookieParser = require('cookie-parser');
+
 
 const app = express();
+
 
 // 미들웨어 설정
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/users', authMiddleware); // 사용자 정보 관련 라우트만 인증 필요
 app.use('/api/protected', authMiddleware); // 보호된 리소스
