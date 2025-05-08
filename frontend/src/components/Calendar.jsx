@@ -110,9 +110,9 @@ export default function Calendar({
         <div className="today-toggle">
           <button onClick={() => setCurrentDate(today)}>오늘</button>
         </div>
-        <div>
+        <div className="move-toggle">
+          <button onClick={() => changeMonth(-1)}>◀</button>
           <strong id="yearMonthLabel">
-            <button onClick={() => changeMonth(-1)}>◀</button>
             {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월{" "}
             {viewMode === "time" ? `${getWeekNumber()} 주차` : null}
           </strong>

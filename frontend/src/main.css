@@ -18,6 +18,7 @@ main {
   top: 60px;
   height: 100vh;
   gap: 20px;
+  border-right: 1px solid lightgray;
 }
 
 .btn {
@@ -81,7 +82,6 @@ main {
 
 .calendar-panel {
   flex: 1;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -93,7 +93,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
 .calendar-view {
@@ -175,6 +175,9 @@ main {
   cursor: pointer;
 }
 
+.move-toggle button {
+}
+
 .view-toggle button.active {
   background-color: #2196f3;
 }
@@ -219,7 +222,7 @@ main {
   background: white;
   padding: 30px;
   border-radius: 12px;
-  width: 360px;
+  width: 450px;
   height: 600px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   text-align: left;
@@ -314,7 +317,6 @@ main {
   border-bottom: 1px solid #ddd;
   text-align: center;
   padding: 6px;
-  cursor: pointer;
   background-color: #fff;
   display: flex;
   align-items: center;
@@ -333,6 +335,7 @@ main {
 
 .time-cell:hover:not(:first-child) {
   background-color: #e3f2fd;
+  cursor: pointer;
 }
 
 .schedule-block {

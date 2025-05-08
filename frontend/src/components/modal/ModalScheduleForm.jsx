@@ -74,6 +74,7 @@ export default function ModalSchedule({
             onClick={() => {
               setSelectedSchedule({ ...selectedSchedule, color: c });
             }}
+            key={c}
           ></div>
         ))}
       </div>

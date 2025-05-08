@@ -18,14 +18,16 @@ export default function TimeView({
       <div className="time-col first-col">
         <div className="time-cell"></div>
         {hours.map((h) => (
-          <div className="time-cell">{h.toString().padStart(2, "0")}:00</div>
+          <div className="time-cell" key={"hour" + h}>
+            {h.toString().padStart(2, "0")}:00
+          </div>
         ))}
       </div>
       {days.map((d, idx) => {
         const tmp = new Date(currentDate);
         tmp.setDate(tmp.getDate() + idx);
         return (
-          <div className="time-col">
+          <div className="time-col" key={"day" + idx}>
             <div className="time-cell">
               {d} ({tmp.getMonth() + 1}/{tmp.getDate()})
             </div>
@@ -48,6 +50,7 @@ export default function TimeView({
                     setModalState("schedule-form");
                   }}
                   style={{ backgroundColor: s2?.color }}
+                  key={"d" + idx + "h" + h}
                 >
                   {s2?.title}
                 </div>
