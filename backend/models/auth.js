@@ -4,7 +4,7 @@ const authService = require('../service/authService');
 // 회원가입
 exports.register = async (req, res) => {
   try {
-    const userId = await authService.register({
+    const user_id = await authService.register({
       user_id: req.body.user_id,
       password: req.body.password,
       name: req.body.name,
@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
     
     res.status(201).json({ 
       success: true,
-      user_id: userId 
+      user_id: user_id 
     });
     
   } catch (error) {
@@ -22,6 +22,15 @@ exports.register = async (req, res) => {
       error: error.message
     });
   }
+};
+
+// 아이디 중복 확인
+exports.checkUserIdExists = async (user_id) => {
+  const [rows] = await db.query(
+    'SELECT user_id FROM users WHERE user_id = ?', 
+    [user_id]
+  );
+  return rows.length > 0;
 };
 
 // 로그인

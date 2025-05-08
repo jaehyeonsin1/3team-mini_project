@@ -2,27 +2,12 @@
 const router = require('express').Router();
 const auth = require('../middleware/mwAuth');
 const userModel = require('../models/user');
+const userInfoController = require('../controllers/userInfoController');
 
-router.put('/', auth, async (req, res) => {
-  try {
-    if (req.user.userId !== req.body.user_id) {
-      return res.status(403).json({ error: '권한이 없습니다.' });
-    }
-    
-    const result = await userModel.updateUser(req.body.user_id, req.body);
-    res.json({ affectedRows: result });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+router.put('/:user_id', userInfoController.updateUser);
 
-router.delete('/', auth, async (req, res) => {
-  try {
-    const result = await userModel.deleteUser(req.user.userId);
-    res.json({ affectedRows: result });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+router.delete('/:user_id', userInfoController.deleteUser);
+
+router.get('/:user_id', userInfoController.getUserInfo);
 
 module.exports = router;

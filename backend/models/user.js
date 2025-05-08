@@ -5,7 +5,7 @@ module.exports = {
   createUser: async (userData) => {
     const [result] = await db.query(
       'INSERT INTO users SET ?',
-      userData
+      [userData]
     );
     return result.insertId;
   },
@@ -13,17 +13,18 @@ module.exports = {
   findByUserId: async (userId) => {
     const [rows] = await db.query(
       'SELECT * FROM users WHERE user_id = ?',
-      [userId]
+      [userId.trim()] // 공백 제거 추가
     );
+    console.log('DB Query Result:', rows); // 쿼리 결과 로깅
     return rows[0];
   },
 
-  updateUser: async (userId, updateData) => {
+  updateUser: async (user_id, updateData) => {
     const [result] = await db.query(
       'UPDATE users SET ? WHERE user_id = ?',
-      [updateData, userId]
+      [updateData, user_id]
     );
-    return result.affectedRows;
+    return result;
   },
 
   deleteUser: async (userId) => {

@@ -12,14 +12,15 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(authMiddleware);
+app.use('/api/users', authMiddleware); // 사용자 정보 관련 라우트만 인증 필요
+app.use('/api/protected', authMiddleware); // 보호된 리소스
 
 // 라우트 설정
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userInfoRoutes');
 
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // 기본 라우트
 app.get('/', (req, res) => {
@@ -36,7 +37,7 @@ app.use((err, req, res, next) => {
 });
 
 // 서버 시작
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
