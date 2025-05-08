@@ -35,9 +35,9 @@ function AuthPopup() {
     setForm((prev) => ({ ...prev, [name]: value })); // form 상태 업데이트
     setErrors((prev) => ({ ...prev, [name]: "" })); // 에러 초기화
     // 아이디 중복 체크
-    if (name === "user_id" && value.length >= 5) {
+    if (name === "user_id" && value.length >= 5 && !isLogin) { // !isLogin 조건 추가
       checkDuplicateId(value);
-    }
+    }    
   };
 
   // 아이디 중복 확인 API
