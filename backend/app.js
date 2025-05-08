@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 서버 시작
+// 서버 포트 3000번대로 시작작
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
