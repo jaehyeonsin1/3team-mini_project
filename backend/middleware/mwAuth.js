@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1] || req.cookies.token;
-  
+  const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
   if (!token) {
-    return res.status(401).json({ error: '인증이 필요합니다.' });
+    return res.status(401).json({ error: "인증이 필요합니다." });
   }
 
   try {
@@ -12,16 +12,16 @@ module.exports = (req, res, next) => {
     req.user = { user_id: decoded.user_id };
     next();
   } catch (err) {
-    res.status(401).json({ error: '인증정보가 유효하지 않습니다.' });
+    res.status(401).json({ error: "인증정보가 유효하지 않습니다." });
   }
 };
 
 // 아이디 중복 확인
 exports.validateUserIdParam = (req, res, next) => {
   const user_id = req.query.user_id;
-  if (!user_id || user_id.trim() === '') {
+  if (!user_id || user_id.trim() === "") {
     return res.status(400).json({
-      error: '아이디 파라미터가 필요합니다'
+      error: "아이디 파라미터가 필요합니다",
     });
   }
   next();

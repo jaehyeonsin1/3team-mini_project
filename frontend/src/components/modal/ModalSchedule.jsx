@@ -12,18 +12,6 @@ export default function ModalSchedule({
   isUpdated,
   setIsUpdated,
 }) {
-  // 해당 날짜의 모든 일정을 조회
-  const getSchedules = async () => {
-    const res = await fetch(
-      `http://localhost:3000/api/schedules?user_id=1&start_date=${selectedDate.date}&end_date=${selectedDate.date}`
-    );
-    console.log(res);
-
-    const data = await res.json();
-
-    setSelectedDate({ ...selectedDate, schedules: data });
-  };
-
   // 일정을 저장/수정
   const saveSchedule = async () => {
     let res = "";
@@ -53,7 +41,6 @@ export default function ModalSchedule({
         user_id: localStorage.getItem("userPK"),
         date: selectedDate.date,
       });
-      getSchedules();
     }
   };
 
@@ -74,7 +61,6 @@ export default function ModalSchedule({
         user_id: localStorage.getItem("userPK"),
         date: selectedDate.date,
       });
-      getSchedules();
     }
   };
 

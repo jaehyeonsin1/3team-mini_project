@@ -13,6 +13,7 @@ function Header() {
   const handleConfirm = () => {
     const token = localStorage.getItem("token");
     const userPK = localStorage.getItem("userPK");
+    const user_id = localStorage.getItem("user_id");
 
     setShowModal(false);
     if (modalType === "logout") {
@@ -26,12 +27,13 @@ function Header() {
           // localStorage에서 필요한 항목만 제거
           localStorage.removeItem("token");
           localStorage.removeItem("userPK");
+          localStorage.removeItem("user_id");
           navigate("/");
         })
         .catch((err) => console.error("로그아웃 실패:", err));
     } else if (modalType === "withdraw") {
       // 회원탈퇴 처리
-      fetch(`http://localhost:3000/api/users/${userPK}`, {
+      fetch(`http://localhost:3000/api/users/${user_id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // 필수 헤더 추가
@@ -41,6 +43,7 @@ function Header() {
           // 탈퇴 후에도 필요한 항목만 제거
           localStorage.removeItem("token");
           localStorage.removeItem("userPK");
+          localStorage.removeItem("user_id");
           navigate("/");
         })
         .catch((err) => console.error("탈퇴 실패:", err));

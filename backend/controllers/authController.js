@@ -1,5 +1,7 @@
 // 로그인, 회원가입 처리
 const authService = require("../service/authService");
+const userModel = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 // 회원가입
 exports.register = async (req, res) => {
@@ -12,22 +14,12 @@ exports.register = async (req, res) => {
 };
 
 // 아이디 중복 확인
-exports.checkUserId = async (req, res) => {
+exports.checkDuplicateId = async (req, res) => {
   try {
-    const userId = req.query.userId;
-    const exists = await authService.checkUserIdExists(userId);
-    res.status(200).json({
-      duplicate: exists,
-      message: exists
-        ? "이미 사용 중인 아이디입니다"
-        : "사용 가능한 아이디입니다",
-      valid: !exists,
-    });
+    const user = await userModel.findByUserId(req.query.user_id);
+    res.json({ duplicate: !!user });
   } catch (error) {
-    res.status(500).json({
-      error: "서버 오류가 발생했습니다",
-      details: error.message,
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -53,10 +45,14 @@ exports.refreshToken = (req, res) => {
 // 로그인
 exports.login = async (req, res) => {
   try {
-    const token = await authService.login(req.body.user_id, req.body.password);
+    const { token, user } = await authService.login(
+      req.body.user_id,
+      req.body.password
+    );
     res.json({
       token,
-      user_id: req.body.user_id, // 사용자 식별자 추가
+      id: user.id, // DB에서 조회한 실제 사용자 PK
+      user_id: req.body.user_id, // DB에서 조회한 실제 사용자 ID
     });
   } catch (err) {
     res.status(401).json({ error: err.message });

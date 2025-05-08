@@ -15,6 +15,8 @@ const ScheduleModel = {
   },
 
   create: async (schedule) => {
+    console.log(1111111111, schedule);
+
     const { user_id, title, date, time, location, color, description } =
       schedule;
 
