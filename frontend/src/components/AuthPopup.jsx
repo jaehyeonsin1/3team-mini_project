@@ -1,7 +1,7 @@
 // 로그인/회원가입 팝업 모달 (조건부 렌더링으로 구분) <-- 조건부 렌더링 안되면 파일 두개 만들면 됩니다
 // 전체 userId -> user_id로 변경
 // fetch의 url에서 api/users -> api/auth로 변경
-// localStorage에 저장하는 userPK값 명시적으로 변경해야 해서 user_id로 변경
+// localStorage에 저장하는 userPK값 추가
 
 import React, { useState, useEffect } from "react";
 import styles from "./AuthPopup.module.css";
@@ -99,7 +99,8 @@ function AuthPopup() {
       .then((data) => {
         // 토큰 및 userPK 저장 (user.id 없을 경우 data.id fallback 처리)
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userPK", data.user_id);
+        localStorage.setItem("userPK", data.id);
+        localStorage.setItem("user_id", data.user_id);
         navigate("/main");
       })
       .catch(() =>

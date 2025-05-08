@@ -23,14 +23,14 @@ function ProfileEdit() {
 
   // 페이지 로딩 시 사용자 정보 불러오기
   useEffect(() => {
-    const userPK = localStorage.getItem("userPK"); // 로그인된 사용자 PK 가져오기
-    if (!userPK) {
+    const user_id = localStorage.getItem("user_id"); // 로그인된 사용자 PK 가져오기
+    if (!user_id) {
       alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
       navigate("/login");
       return;
     }
 
-    fetch(`http://localhost:3000/api/users/${userPK}`, {
+    fetch(`http://localhost:3000/api/users/${user_id}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}` // 토큰 추가
       }
@@ -67,8 +67,8 @@ function ProfileEdit() {
   const handleSubmit = () => {
     if (!validate()) return;
 
-    const userPK = localStorage.getItem("userPK"); // 사용자 식별
-    fetch(`http://localhost:3000/api/users/${userPK}`, {
+    const user_id = localStorage.getItem("user_id"); // 사용자 식별
+    fetch(`http://localhost:3000/api/users/${user_id}`, {
       method: "PUT",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

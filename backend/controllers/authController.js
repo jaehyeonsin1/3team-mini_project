@@ -44,9 +44,10 @@ exports.refreshToken = (req, res) => {
 // 로그인
 exports.login = async (req, res) => {
   try {
-    const token = await authService.login(req.body.user_id, req.body.password);
+    const { token, user } = await authService.login(req.body.user_id, req.body.password);
     res.json({ token,
-      user_id: req.body.user_id // 사용자 식별자 추가
+      id: user.id, // DB에서 조회한 실제 사용자 PK
+      user_id: req.body.user_id // DB에서 조회한 실제 사용자 ID
      });
   } catch (err) {
     res.status(401).json({ error: err.message });
