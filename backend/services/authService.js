@@ -24,7 +24,7 @@ module.exports = {
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) throw new Error("비밀번호가 잘못 되었습니다.");
 
-    return jwt.sign({ user_id: user.id }, process.env.JWT_SECRET, {
+    return jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
   },
