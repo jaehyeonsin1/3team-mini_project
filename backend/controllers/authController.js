@@ -1,5 +1,5 @@
 // 로그인, 회원가입 처리
-const authService = require("../service/authService");
+const authService = require("../services/authService");
 const userModel = require("../models/user");
 const jwt = require("jsonwebtoken");
 

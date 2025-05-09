@@ -1,4 +1,4 @@
-const UserModel = require('../models/userModel');
+const UserModel = require("../models/userModel");
 
 const userService = {
   register: async (user) => {
@@ -19,6 +19,8 @@ const userService = {
   },
 
   updateUser: async (id, updatedUser) => {
+    console.log(1231232312321);
+
     const existingUser = await UserModel.findById(id);
     if (!existingUser) {
       throw new Error(`회원이 존재하지 않습니다: id=${id}`);

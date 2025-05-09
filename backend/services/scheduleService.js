@@ -1,5 +1,5 @@
-const ScheduleModel = require("../models/scheduleModel");
-const UserModel = require("../models/userModel");
+const ScheduleModel = require("../models/schedule");
+const UserModel = require("../models/user");
 
 const scheduleService = {
   getSchedulesByUserAndDate: async (userId, start_date, end_date) => {
