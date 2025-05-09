@@ -1,0 +1,15 @@
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+}
+
+.placeholder {
+  color: #888;
+  font-size: 18px;
+}
