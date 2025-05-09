@@ -67,7 +67,7 @@ function AuthPopup() {
       return;
     }
 
-    fetch(`http://localhost:3000/api/users/check-id?user_id=${user_id}`)
+    fetch(`http://localhost:3000/api/auth/check-id?user_id=${user_id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.duplicate) {

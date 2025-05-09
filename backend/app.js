@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./config/db");
-const authMiddleware = require("./middleware/mwAuth");
+const mwAuth = require("./middleware/mwAuth");
 
 const app = express();
 
@@ -12,8 +12,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/api/users", authMiddleware); // 사용자 정보 관련 라우트만 인증 필요
-app.use("/api/protected", authMiddleware); // 보호된 리소스
+app.use("/api/users", mwAuth); // 사용자 정보 관련 라우트만 인증 필요
+app.use("/api/protected", mwAuth); // 보호된 리소스
 
 // 라우트 설정
 const authRoutes = require("./routes/authRoutes");

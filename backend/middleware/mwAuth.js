@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+  console.log(`[mwAuth] Path: ${req.path}`); // ✅ 요청 경로 로깅
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ error: "인증이 필요합니다." });

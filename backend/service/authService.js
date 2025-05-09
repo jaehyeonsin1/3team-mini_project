@@ -29,7 +29,7 @@ module.exports = {
       token: jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       }),
-      user, // 사용자 객체 전체 반환 추가
+      user // 사용자 객체 전체 반환 추가
     };
   },
 };
