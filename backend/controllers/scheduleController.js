@@ -30,13 +30,16 @@ exports.getSchedule = async (req, res) => {
 // 일정 등록
 exports.createSchedule = async (req, res) => {
   try {
+    if (!req.body.userId) {
+      return res.status(400).json({ error: "userId는 필수입니다." });
+    }
     const newSchedule = await scheduleService.save(req.body);
     res.status(201).json(newSchedule);
   } catch (err) {
+
     res.status(500).json({ error: "일정 생성 실패" });
   }
 };
-
 // 일정 수정
 exports.updateSchedule = async (req, res) => {
   try {

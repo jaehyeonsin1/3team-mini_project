@@ -90,15 +90,16 @@ function AuthPopup() {
       body: JSON.stringify({ userId: form.userId, password: form.password }),
     })
       .then((res) => {
+        debugger;
         if (!res.ok) throw new Error("로그인 실패");
         return res.json();
       })
       .then((data) => {
         // 토큰 및 userPK 저장 (user.id 없을 경우 data.id fallback 처리)
-
+        debugger;
         localStorage.setItem("token", data.token);
         // localStorage.setItem("userPK", data.user?.id ?? data.id);
-        localStorage.setItem("userPK", "1");
+        localStorage.setItem("userPK", data.userIndex);
 
         navigate("/main");
       })

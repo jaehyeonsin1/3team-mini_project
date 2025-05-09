@@ -66,6 +66,7 @@ export default function ModalSchedule({
       <div className="color-picker">
         {colorList.map((c) => (
           <div
+            key ={c}
             className={`color-option ${
               c === selectedSchedule.color ? "selected" : ""
             }`}

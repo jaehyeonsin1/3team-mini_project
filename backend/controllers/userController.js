@@ -17,13 +17,19 @@ exports.login = async (req, res) => {
   try {
     const success = await userService.login(userId, password);
     if (success) {
-      const token = jwt.generateToken(userId);
+      const userToken = jwt.generateToken(userId);
+      const user = await userService.findByUserId(userId);
+      const data = {
+        token: userToken,
+        userIndex : user.id
+      }
 
-      res.status(200).json({ token });
+      res.status(200).json({ data });
     } else {
       res.status(401).json({ error: "로그인 실패" });
     }
   } catch (err) {
+    console.error("로그인 서버 오류", err);
     res.status(500).json({ error: "서버 오류" });
   }
 };

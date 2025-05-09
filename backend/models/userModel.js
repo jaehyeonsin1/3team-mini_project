@@ -15,18 +15,19 @@ const UserModel = {
   },
 
   create: async (user) => {
-    const { userId, password, email } = user;
+    const { userId, password, name, email } = user;
     const [result] = await db.query(
-      "INSERT INTO users (user_id, password, email) VALUES (?, ?, ?)",
-      [userId, password, email]
+      "INSERT INTO users (user_id, password, name, email) VALUES (?, ?, ?, ?)",
+      [userId, password, name, email]
     );
-    return { id: result.insertId, userId, email };
+    return { id: result.insertId, userId, name, email };
   },
 
   update: async (id, user) => {
-    const { password, email } = user;
-    await db.query("UPDATE users SET password = ?, email = ? WHERE id = ?", [
+    const { password, name, email } = user;
+    await db.query("UPDATE users SET password = ?, name = ?, email = ? WHERE id = ?", [
       password,
+      name,
       email,
       id,
     ]);
